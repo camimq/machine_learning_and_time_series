@@ -5,6 +5,9 @@
 
 - Quando estamos trabalhando com a importação de uma planilha excel para o Python, existe um parâmentro `sheet_name`, que permite acessar uma _sheet_ específica dentro do arquivo, caso haja mais que um.
 - Estatística descritiva serve para entender como estão os dados da base. O comando `df.describe()`, vai trazer todas as informações iniciais, em cima das colunas numéricas da base.
+- E possível transpor a tabela da estatística descritiva, utilizando o `.T`; para algumas pessoas fica mais fácil (ex: `df.describe().T`).
+- A "tabela" de estatística descritiva, é uma matriz de dados.
+- Variáveis categóricas, são aquelas que não conseguimos analisar de forma numérica / estatística; forma "categorias" dentro do banco de dados.
 
 
 ### `df_csv` Tomato base
