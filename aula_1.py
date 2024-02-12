@@ -165,3 +165,27 @@ arr_a_b
 # cria um array que subtrai arr_a e arr_b
 arr_sub_a_b = np.subtract(arr_a, arr_b)
 arr_sub_a_b
+
+# %%
+import matplotlib.pyplot as plt
+
+# %%
+df_csv.head()
+
+# %%
+df_csv.info()
+
+# %%
+# transforma coluna date em DATA (está como object - texto)
+df_csv['Date'] = pd.to_datetime(df_csv['Date'])
+
+# %%
+df_csv.info()
+
+# %%
+# cria gráfico de linha
+plt.plot(df_csv['Date'], df_csv['Average'])
+plt.xlabel('Data')
+plt.ylabel('Média de tomate em kg')
+plt.title('Média de tomates ao longo do tempo')
+plt.show()
