@@ -112,8 +112,56 @@ print(arr_random.shape)
 # transforma o formato do array
 arr_random_reshape = arr_random.reshape((4, 3))
 print(arr_random_reshape)
-
-# %%
 # transformou a matriz em uma tabela de 4 linhas e 3 colunas
 
+# %%
+# concatenando arrays
+arr1 = np.array([[1, 2], [3, 4]])
+arr2 = np.array([[5, 6], [7, 8]])
+arr3 = np.array([[9, 10], [11, 12]])
 
+# %%
+arr1
+
+# %%
+arr2
+
+# %%
+arr3
+
+# %%
+# concatenando todos os arrays criados no arr4
+arr4 = np.concatenate((arr1, arr2, arr3), axis = 1)
+
+# %%
+arr4
+
+# %%
+# dividir o array em 2
+arr4_split = np.split(arr4, 2)
+print(arr4_split)
+
+# %%
+# transposição de matriz
+arr4_transpose = np.transpose(arr4)
+print(arr4_transpose)
+
+
+# %%
+# reverte transposição de matriz
+arr4_transpose_revertido = arr4_transpose.T
+arr4_transpose_revertido
+
+# %%
+arr_a = np.array([1, 7, 27])
+arr_b = np.array([1, 5, 1])
+
+# %%
+# cria um array que soma o a e b
+arr_a_b = np.add(arr_a, arr_b)
+arr_a_b
+
+# %%
+# cria um array que subtrai arr_a e arr_b
+arr_sub_a_b = np.subtract(arr_a, arr_b)
+arr_sub_a_b
