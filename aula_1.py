@@ -189,3 +189,21 @@ plt.xlabel('Data')
 plt.ylabel('Média de tomate em kg')
 plt.title('Média de tomates ao longo do tempo')
 plt.show()
+
+# %%
+# plota o gráfico de dispersão da base do xadrez (df_excel)
+plt.scatter(df_excel['black_rating'],df_excel['white_rating'])
+plt.xlabel('Black')
+plt.ylabel('White')
+plt.title('Partidas de peças pretas x peças brancas')
+
+# %%
+# há uma grande relação entre as peças brancas e pretas
+# a massa azul transversal, mostra que há uma relação entre as jogadas (uma jogada é "resposta" para outra) 
+
+# %%
+plt.bar(df_csv['categoria_tomate'], df_csv['Average'])
+plt.xlabel('Categorias')
+plt.ylabel('Média ')
+plt.title('Média de tomates por categoria')
+plt.show()
