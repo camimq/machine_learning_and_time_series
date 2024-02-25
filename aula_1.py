@@ -207,3 +207,9 @@ plt.xlabel('Categorias')
 plt.ylabel('Média ')
 plt.title('Média de tomates por categoria')
 plt.show()
+
+# %%
+df_excel.groupby(['victory_status']).mean().plot(kind='pie', y='turns', autopct='%1.0f%%')
+plt.title('Média de partidas dentro de status de vitória')
+plt.show()
+# %%
