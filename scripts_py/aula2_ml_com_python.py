@@ -296,6 +296,9 @@ plt.legend()
 # 
 # A comprovação dessa informação pode ser feito através da leitura estatística.
 
+# %% [markdown]
+# **TESTES DE HIPÓTESES**
+
 # %%
 # utiliza o shapiro para testar hipótese de distribuição dos dados
 from scipy.stats import shapiro # teste de normalidade dos dados
@@ -319,3 +322,29 @@ if p > 0.05:
     print('Não há evidência suficiente para rejeitar a hipótese de normalidade.')
 else:
     print('A hipótese de normalidade é rejeitada.')
+
+# %%
+stat, p = shapiro(df_ao_vivo)
+print('Soma do barulho dos álbuns ao vivo: ')
+print('Estatística de teste: {:.4f}, valor p: {}'.format(stat, p))
+
+if p > 0.05:
+    print('Não há evidência suficiente para rejeitar a hipótese de normalidade.')
+else:
+    print('A hipótese de normalidade é rejeitada.')
+
+# %%
+# compara (ou não) que os dois datasets possuem distribuição semelhantes
+from scipy.stats import mannwhitneyu
+
+# %%
+stat, p = mannwhitneyu(df_estudio.sample(len(df_estudio)), df_ao_vivo.sample(len(df_ao_vivo)), alternative = 'less')
+
+print('Estatística de teste U: ', stat)
+print('Valor p: ', p)
+
+alpha = 0.05
+if p < alpha:
+    print('Diferença estatisticamente significante.')
+else:
+    print('Não há diferença estatísticamente significante.')
