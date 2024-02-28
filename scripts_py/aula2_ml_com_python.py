@@ -270,3 +270,52 @@ df_estudio
 df_ao_vivo
 
 # %%
+
+# %% [markdown]
+# Gráfico de densidade (abaixo), também é utilizado para analisar a distribuição dos dados.
+
+# %%
+# o gráfico vai ser plotado um dataframe sobre o outro para ajudar a análise
+plt.figure(figsize = (10, 5))
+
+sns.kdeplot(data = df_estudio, label = 'Álbuns de estudio', fill = True)
+sns.kdeplot(data = df_ao_vivo, label = 'Álbuns ao vivo', fill = True)
+
+plt.title('Distribuição do barulho dos albuns')
+plt.xlabel('Barulho')
+plt.ylabel('Densidade')
+plt.legend()
+
+
+
+# %% [markdown]
+# - Estudio - azul
+# - vermelho - ao vivo
+# 
+# - Aparentemente, os albuns de estudio tem menos ruido que os albuns ao vivo
+# 
+# A comprovação dessa informação pode ser feito através da leitura estatística.
+
+# %%
+# utiliza o shapiro para testar hipótese de distribuição dos dados
+from scipy.stats import shapiro # teste de normalidade dos dados
+
+# %%
+stat, p = shapiro(df_estudio)
+print('Soma do barulho dos álbuns de estudio: ')
+print('Estatística de teste: {:.4f}, valor p: {}'.format(stat, p))
+
+if p > 0.05:
+    print('Não há evidência suficiente para rejeitar a hipótese de normalidade.')
+else:
+    print('A hipótese de normalidade é rejeitada.')
+
+# %%
+stat, p = shapiro(df_ao_vivo)
+print('Soma do barulho dos álbuns ao vivo: ')
+print('Estatística de teste: {:.4f}, valor p: {}'.format(stat, p))
+
+if p > 0.05:
+    print('Não há evidência suficiente para rejeitar a hipótese de normalidade.')
+else:
+    print('A hipótese de normalidade é rejeitada.')
