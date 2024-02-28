@@ -63,4 +63,10 @@
     12  opening_name    20058 non-null  object 
     13  opening_ply     20058 non-null  int64  
     dtypes: bool(1), float64(2), int64(4), object(7)
-    memory usage: 2.0+ MB   
+    memory usage: 2.0+ MB
+
+## Aula 2 | Análise Exploratória de Dados (EDA)
+
+### Problemas no código
+
+- [ ] Verificar a legenda do gráfico de Densidade da aula IX.
