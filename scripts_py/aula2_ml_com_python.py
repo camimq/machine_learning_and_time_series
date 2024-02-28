@@ -192,4 +192,41 @@ plt.show()
 # %%
 df.head()
 
+# %%
+# verificar (através de função) se a músca é ao vivo ou não, baseado no liveness (qto mais próximo de 1, é ao vivo)
+def classifica_musica_ao_vivo(df):
+    if df['liveness'] >= 0.8:
+        return True
+    else:
+        return False
 
+# %%
+#cria uma coluna ao vivo e aplica a função para classificar o que é ao vivo ou não)
+df['ao_vivo'] = df.apply(classifica_musica_ao_vivo, axis = 1)
+df
+
+# %%
+# agrupa música ao vivo e musica nao ao vivo
+df.groupby('ao_vivo')['ao_vivo'].count()
+
+# %%
+# cria um dataframe para cada grupo (ao vivo e não ao vivo)
+df_gravado_em_estudio = df[df['ao_vivo'] == False]
+df_show_ao_vivo = df[df['ao_vivo'] == True]
+
+# %%
+df_gravado_em_estudio.head()
+
+# %%
+df_show_ao_vivo.head()
+
+# %%
+# calcula e printa média de músicas ao vivo
+print('Média das músicas ao vivo: ', df_show_ao_vivo['duracao_minutos'].mean())
+
+# %%
+# calcula e printa média de músicas ao vivo
+print('Média das músicas em estúdio: ', df_gravado_em_estudio['duracao_minutos'].mean())
+
+# %% [markdown]
+# Olhando para esses dados, é possível confirmar que os _outliers_ que apareceram nos gráficos acima, de fato existem. São as músicas de show ao vivo. Se fossem retirados, perderíamos todos dados de música ao vivo.
