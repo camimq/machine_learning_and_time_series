@@ -230,3 +230,43 @@ print('Média das músicas em estúdio: ', df_gravado_em_estudio['duracao_minuto
 
 # %% [markdown]
 # Olhando para esses dados, é possível confirmar que os _outliers_ que apareceram nos gráficos acima, de fato existem. São as músicas de show ao vivo. Se fossem retirados, perderíamos todos dados de música ao vivo.
+
+# %% [markdown]
+# Utilizar o `loudness` para fazer análises com o Histograma.
+# 
+# - Histograma analisa distribuição de dados que são contínuos
+# - Dados contínuos são dados que não possuem limite definido, tem diversas variações.
+
+# %%
+# cria dois novos datasets, agrupando por album e nível loudness
+df_estudio = df_gravado_em_estudio.groupby('album')['loudness'].sum()
+df_ao_vivo = df_show_ao_vivo.groupby('album')['loudness'].sum()
+
+# criando os dois histogramas lado a lado
+fig, axes = plt.subplots(1, 2, figsize = (15,4))
+
+sns.histplot(data = df_estudio, bins = 20, ax = axes[0])
+axes[0].set_title('Soma do barulho do albuns de estudio')
+axes[0].set_xlabel('Barulho')
+axes[0].set_ylabel('Frequência')
+
+sns.histplot(data = df_ao_vivo, bins = 20, ax = axes[1])
+axes[1].set_title('Soma do barulho dos albuns ao vivo')
+axes[1].set_xlabel('Barulho')
+axes[1].set_ylabel('Frequência')
+
+#ajusta espaçamento entre os dados
+fig.tight_layout()
+plt.show()
+
+
+# %% [markdown]
+# 
+
+# %%
+df_estudio
+
+# %%
+df_ao_vivo
+
+# %%
