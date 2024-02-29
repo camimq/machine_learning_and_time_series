@@ -348,3 +348,29 @@ if p < alpha:
     print('Diferença estatisticamente significante.')
 else:
     print('Não há diferença estatísticamente significante.')
+
+# %% [markdown]
+# ### Análise de Correlação
+
+# %% [markdown]
+# A valência é o parâmetro utilizado para identificar a positividade de uma música.
+
+# %%
+# criar média da valencia por album
+media_por_album_valence = df.groupby('album')['valence'].mean().reset_index()
+
+# cria coluna de média de valencia
+media_por_album_valence = media_por_album_valence.rename(columns = {'valence' : 'valence_average'}) # renomeia a coluna valence para valence_average
+
+# 0,6 >  == musica positiva
+# 0,6 < == musica negativa
+# cria condição que classifica a música de acordo com os parâmetros acima e cria uma nova coluna (sentimento) para armazenar essa classificação
+media_por_album_valence['sentimento'] = ['positivo' if v > 0.6 else 'negativo' for v in media_por_album_valence['valence_average']]
+
+# contabiliza o volume de musicas positivas e negativas
+media_por_album_valence.groupby('sentimento')['sentimento'].count()
+
+# %%
+# concatena dataframe original com media_por_album_valence
+df_resultado_final = pd.merge(df, media_por_album_valence, on = 'album')
+df_resultado_final.head(15)
