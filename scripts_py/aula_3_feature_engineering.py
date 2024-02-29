@@ -55,6 +55,27 @@ hist_variaveis.sqft_living.hist()
 hist_variaveis.bathrooms.hist()
 
 # %%
+# processo de transformação de escalas
+# importando bibliotecas para transformação
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 
+# %%
+# StandarScalar - padroniza 
+# padronização dos dados
 
+scaler = StandardScaler()
 
+x_std = scaler.fit_transform(x)
+
+# %%
+x
+
+# %%
+x_std
+
+# %%
+x_std = pd.DataFrame(x_std, columns = ['sqt_living', 'bathrooms'])
+x_std.sqt_living.hist();
+x_std.bathrooms.hist();
+
+# %%
