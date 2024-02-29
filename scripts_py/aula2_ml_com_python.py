@@ -381,7 +381,7 @@ df_resultado_final
 
 # %%
 # cria matriz de correlação
-matriz_correlacao = df_resultado_final.corr()
+matriz_correlacao = df_resultado_final.corr(numeric_only = True)
 
 correlacao_sentimento = matriz_correlacao['valence_average']
 
