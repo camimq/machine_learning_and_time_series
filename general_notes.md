@@ -70,6 +70,6 @@
 ### Problemas no código
 
 - [ ] Verificar a legenda do gráfico de Densidade da aula IX.
-- [ ] Verificar a criação de matriz de sentimento da aula XII.
-- [ ] Verificar o heatmap da aula XII.
+- [x] Verificar a criação de matriz de sentimento da aula XII.
+- [x] Verificar o heatmap da aula XII.
 - [ ] Verificar scatterplot da aula XII.
