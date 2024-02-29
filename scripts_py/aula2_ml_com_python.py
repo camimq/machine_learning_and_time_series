@@ -374,3 +374,37 @@ media_por_album_valence.groupby('sentimento')['sentimento'].count()
 # concatena dataframe original com media_por_album_valence
 df_resultado_final = pd.merge(df, media_por_album_valence, on = 'album')
 df_resultado_final.head(15)
+
+# %%
+# cria matriz de correlação
+df_resultado_final
+
+# %%
+# cria matriz de correlação
+matriz_correlacao = df_resultado_final.corr()
+
+correlacao_sentimento = matriz_correlacao['valence_average']
+
+display(correlacao_sentimento)
+
+# %%
+sns.heatmap(correlacao_sentimento.to_frame(), annot = True, cmap = 'coolwarm')
+plt.show()
+
+# %%
+# cria um gráfico de dispersão
+sns.scatterplot(x = 'valence_average', y = 'danceability', hue = 'sentimento', data = df_resultado_final, palette = 'coolwarm')
+plt.xlabel('media valence')
+plt.ylabel('danceability')
+plt.title('Relação entre valência média e a capacidade de dança das músicas')
+
+plt.show()
+
+# %%
+sns.scatterplot(x = 'valence_average', y = 'liveness', hue = 'sentimento', data = df_resultado_final, palette = 'coolwarm')
+plt.xlabel('media valence')
+plt.ylabel('liveness')
+plt.title('Relação entre valência média e música ao vivo')
+plt.show()
+
+# %%
