@@ -59,3 +59,64 @@ plt.hist(imoveis['Valor'], bins = 5)
 plt.ylabel('Frequência')
 plt.xlabel('Valor')
 plt.title('Histograma da variável valor')
+
+# %%
+imoveis['raiz_valor'] = np.sqrt(imoveis['Valor'])
+
+# %%
+imoveis.head()
+
+# %%
+plt.hist(imoveis['raiz_valor'], bins = 5)
+
+plt.ylabel('Frequência')
+plt.xlabel('Valor')
+plt.title('Histograma da variável valor após raiz quadrada aplicada')
+
+# %% [markdown]
+# ### Explorando outras variáveis
+
+# %% [markdown]
+# #### Explorando variáveis quantitativas
+
+# %%
+plt.figure(figsize = (24, 20))
+
+plt.subplot(4, 2, 1)
+fig = imoveis.boxplot(column = 'Valor')
+fig.set_title(' ')
+fig.set_ylabel('Valor em R$')
+
+plt.subplot(4, 2, 2)
+fig = imoveis.boxplot(column = 'Area')
+fig.set_title(' ')
+fig.set_ylabel('Área em m²')
+
+plt.subplot(4, 2, 3)
+fig = imoveis.boxplot(column = 'IA')
+fig.set_title(' ')
+fig.set_ylabel('Idade do Imóvel')
+
+plt.subplot(4, 2, 4)
+fig = imoveis.boxplot(column = 'Andar')
+fig.set_title(' ')
+fig.set_ylabel('Andar')
+
+plt.subplot(4, 2, 5)
+fig = imoveis.boxplot(column = 'DistBM')
+fig.set_title(' ')
+fig.set_ylabel('Distância do Mar')
+
+plt.subplot(4, 2, 6)
+fig = imoveis.boxplot(column = 'Suites')
+fig.set_title(' ')
+fig.set_ylabel('Quantidade de Suites')
+
+# %%
+# matriz de correlação
+correlation_matrix = imoveis.corr().round(2)
+
+fig, ax = plt.subplots(figsize = (8,8))
+sb.heatmap(data = correlation_matrix, annot = True, linewidths= .5, ax = ax)
+
+# %%
