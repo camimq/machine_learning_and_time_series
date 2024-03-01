@@ -120,3 +120,47 @@ fig, ax = plt.subplots(figsize = (8,8))
 sb.heatmap(data = correlation_matrix, annot = True, linewidths= .5, ax = ax)
 
 # %%
+
+# %%
+imoveis.head()
+
+# %%
+# Regressão linear múltipla
+from sklearn.linear_model import LinearRegression
+
+# Criando um Objeto de Regressão Linear
+lr = LinearRegression() 
+
+# %%
+# X contém as variáveis preditoras ou independentes
+X = imoveis[['Area', 'Suites', 'IA', 'Semruido', 'Vista', 'Andar', 'AV100m', 'DistBM']]
+
+# y variável target ou dependente
+y = imoveis[['Valor']]
+
+# %%
+X
+
+# %%
+y
+
+# %%
+from sklearn.model_selection import train_test_split
+
+# Separando os dados de Treino e Teste
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state = 101)
+
+# %%
+# Treinando o modelo
+lr.fit(X_train, y_train)
+
+# %%
+# Calculando o valor predito da variável resposta na amostra teste
+y_pred = lr.predict(X_test)
+
+# %%
+# Primeiro, vamos olhar o Intercepto e os Coeficientes de Regressão.
+# Representa o valor esperado da variável dependente quando todas as variáveis independentes são iguais.
+# Em termos gráficos, o Intercepto é o ponto onde a linha de regressão cruza o eixo vertical (eixo y)
+
+print('Intercepto: ', lr.intercept_)
