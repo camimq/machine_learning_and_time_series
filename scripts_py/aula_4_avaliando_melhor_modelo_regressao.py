@@ -164,3 +164,87 @@ y_pred = lr.predict(X_test)
 # Em termos gráficos, o Intercepto é o ponto onde a linha de regressão cruza o eixo vertical (eixo y)
 
 print('Intercepto: ', lr.intercept_)
+
+# %%
+# Os coeficientes de regressão linear representam as inclinações da linha de regressão para cada variável
+coefficients = pd.concat([pd.DataFrame(X.columns), pd.DataFrame(np.transpose(lr.coef_))], axis = 1)
+coefficients
+
+# %%
+fig = plt.figure(figsize = (8,6), dpi = 80)
+plt.rcParams.update({'font.size' : 14})
+ax = sb.regplot( x = y_test, y = y_pred)
+ax.set(xlabel = 'y real', ylabel = 'y predito')
+ax = plt.plot(y_test, y_test, '--r')
+
+plt.show()
+
+# %%
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+
+# %%
+# Avaliando o modelo
+MAE = mean_squared_error(y_test, y_pred)
+MSE = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+print('MAE', MAE) # Mean Absolute Error (MAE) é a média do valor absoluto dos erros
+print('MSE', MSE) # Erro Quadrático Médio (MSE) é a média dos erros quadrádicos
+print('r2', r2) # (R-quadrado)
+
+# %% [markdown]
+# ## Avaliando com Decision TreeRegressor
+
+# %% [markdown]
+# Observamos que nosso modelo de regressão linear se comportou bem, mas e se tentarmos criar um novo modelo sob um outro tipo de algoritmo diferente?
+# 
+# Um modelo de DecisionTreeRegressor é um modelo de árvore de decisão utilizado para resolver problemas de regressão. Esse tipo de técnica cria uma estrutura em forma de árvore para mapear relações não lineares entre as variáveis preditoras e a variável alvo.
+# 
+# Vamos testar.
+
+# %%
+from sklearn.tree import DecisionTreeRegressor
+
+# %%
+# Criando o modelo de DecisionTreeRegressor
+modelo_dtr = DecisionTreeRegressor(random_state = 101, max_depth = 10)
+modelo_dtr.fit(X_train, y_train)
+
+# %%
+y_pred_model_dtr = modelo_dtr.predict(X_test)
+
+# %%
+# Avaliando o modelo
+MAE = mean_absolute_error(y_test, y_pred_model_dtr)
+MSE = mean_squared_error(y_test, y_pred_model_dtr)
+r2 = r2_score(y_test, y_pred_model_dtr)
+print('MAE', MAE) # Mean Absolute Error (MAE) é a média do valor absoluto dos erros
+print('MSE', MSE) # Erro Quadrático Médio (MSE) é a média dos erros quadráticos
+print('r2', r2)
+
+# %% [markdown]
+# ## Avaliando com SVR
+
+# %% [markdown]
+# Vamos agora testar um outro tipo de algoritmo para analisar a performance, o **Support Vector Regression**. O SVR, é usado para tarefas de regressão, em que a tarefa é prever um valor contínuo em vez de uma classe.
+
+# %%
+from sklearn.svm import SVR
+
+# %%
+# Criando o modelo de SVM
+svr = SVR(kernel = 'linear')
+
+# %%
+svr.fit(X_train, y_train)
+
+# %%
+y_pred_svr = svr.predict(X_test)
+
+# %%
+# Avaliando o modelo
+MAE = mean_absolute_error(y_test, y_pred_svr)
+MSE = mean_squared_error(y_test, y_pred_svr)
+r2 = r2_score(y_test, y_pred_svr)
+print('MAE', MAE) # Mean Absolute Error (MAE) é a média do valor absoluto dos erros
+print('MSE', MSE) # Erro Quadrático Médio (MSE) é a média dos erros quadráticos
+print('r2', r2) # (R - quadrado)
