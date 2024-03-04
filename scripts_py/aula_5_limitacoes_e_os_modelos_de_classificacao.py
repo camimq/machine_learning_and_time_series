@@ -182,3 +182,172 @@ df.head(3)
 from sklearn.model_selection import train_test_split
 
 # %%
+x = df[['Flight', 'Time', 'Length', 'Airline', 'AirportFrom', 'AirportTo', 'DayOfWeek']]
+y = df['Class']
+
+# %%
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size = 0.3, random_state=7)
+
+# %% [markdown]
+# ## Criando o modelo **Naive Bayes**
+
+# %% [markdown]
+# **Naive Bayes** é um algoritmo baseado no teorema de Bayes e na suposição de independência condicional entre atributos.
+# 
+# O modelo Naive Bayes calcula a probabilidade condicional de uma determinada classe, dada uma entrada de dados ou conjunto de atributos, utilizando a regra de Bayes.
+# 
+# Ele assume que os atributos de entrada são independentes entre si, ou seja, a presença ou ausência de um atributo não é afetada pela presença ou ausência de outro atributo.
+
+# %%
+from sklearn.naive_bayes import GaussianNB
+
+# %%
+gnb = GaussianNB()
+gnb.fit(x_train, y_train)
+
+# %%
+# Predizendo valores
+y_pred = gnb.predict(x_test)
+
+
+# %% [markdown]
+# ## Validando o modelo
+
+# %%
+from sklearn.metrics import accuracy_score
+
+# %%
+accuracy = accuracy_score(y_test, y_pred)
+print('Accuracy: ', round(accuracy, 2))
+
+# %% [markdown]
+# De modo geral, o modelo **não** obteve um poder preditivo grande...
+# 
+# Nesse caso, podemos encontrar alguns desafios (limitações) sobre os modelos classificadores.
+# 
+# Podemos ter alguns impedimentos que podem ocasionar resultados ruin em nossos algoritmos, sendo eles: algoritmos ruins ou dados ruins.
+# 
+# Vamos conversar um pouquinho sobre esses desafios! Se tratando de dados ruins, podemos ter alguns fatores:
+# 
+# - **Quantidade insuficiente de dados:** com uma amostra de dados muito pequena, existirá um "ruído de amostragem" e se houver uma amostra muito grande com dados não representativos, o método de amostragem também pode ser falho (viés de amostragem).
+# 
+# - **Dados de treinamento não representativos:** o objetivo de um bom modelo de aprendizado de máquina é generalizar bem a partir dos dados de treinamento, sendo assim, é importante buscar uma base de dados representativa. Será que a sua base ded dados consegue generalizar?
+# 
+# - **Dados de baixa qualidade:** aqui é preciso se dedicar a limpeza de dados, uma base não consistente pode impactar na detecção de padrões.
+# 
+# - **Características irrelevantes:** entra lixo, sai lixo. Atenção aos dados que entram no seu modelo! A dica aqui é a dedicação na etapa de *feature engineering* ou técnicas de redução da dimensionalidade.
+
+# %% [markdown]
+# ## Equilibrando a base de dados
+
+# %% [markdown]
+# Para equilibrar a base de dados, podemos utilizar algumas técnicas como por exemplo, a biblioteca *resample* do `sklearn.utils`, utilizando o `oversampling`.
+# 
+# O *oversampling* é um processo de duplicar ou criar novas amostras de classe minoritária, enquando o *undersampling* é o processo de remover algumas amostras da classe majoritária.
+# 
+# Vamos analisar como nosso resultado pode ter um upgrade com *oversampling*?
+
+# %%
+from sklearn.utils import resample
+
+# %%
+# Separando as classes majoritárias e minoritárias
+df_majority = df[df.Class == 0]
+df_minortiy = df[df.Class == 1]
+
+# %%
+len(df_majority)
+
+# %%
+# Unsampling da classe minoritária
+df_minority_upsample = resample(df_minortiy, replace = True, n_samples = len(df_majority), random_state = 7)
+
+# %%
+# Juntando os dois Dataframes
+df_equilibrio = pd.concat([df_majority, df_minority_upsample])
+
+# %%
+sns.countplot(x = 'Class', data = df_equilibrio)
+
+# %% [markdown]
+# Agora sim, temos uma base de dados equilibrada!
+
+# %% [markdown]
+# ## Testando o algoritmo com base equilibrada
+
+# %%
+x_equilibrado = df_equilibrio[['Flight', 'Time', 'Length', 'DayOfWeek']]
+y_equilibrado = df_equilibrio['Class']
+
+# %%
+x_train, x_test, y_train, y_test = train_test_split(x_equilibrado, y_equilibrado, test_size = 0.3, stratify = y_equilibrado, random_state = 7)
+
+# %%
+# Treinando o algoritmo
+gnb_equilibrado = GaussianNB()
+gnb_equilibrado.fit(x_train, y_train)
+
+# %%
+# Predizendo valores
+y_pred_gnb_equilibrado = gnb_equilibrado.predict(x_test)
+
+# %% [markdown]
+# ## Validando o modelo
+
+# %%
+accuracy_equilibrado = accuracy_score(y_test, y_pred_gnb_equilibrado)
+print('Accuracy: ', round(accuracy_equilibrado, 2))
+
+# %% [markdown]
+# Também não tivemos muito avanço. Nesse caso, quando todas as alternativas não dão certo, o que podemos fazer?
+# 
+# Podemos tentar buscar novas alternativas utilizando outros algoritmos de *machine learning*.
+# 
+# Agora, vamos falar um pouquinho sobre algoritmos ruins:
+# 
+# - **Sobreajuste nos dados (*overfiting*):** quando o seu modelo funciona muito bem com os dados de treinamento mas não generaliza bem novos dados de entrada. Isso pode acontecer quando o modelo é muito complexo em relação ao ruído e quantidade. Como solução pode pensar em:
+# 
+#     - Simplificar o modelo
+#     - Coletar mais dados
+#     - Reduzir o ruído (exemplo, remover outliers)
+#     - Regularização: chamamos de regularização quando restringimos um modelo para simplicar e reduzir o risco de reajuste dos dados. A regularização pode ajudar a generalizar melhor o modelo em novos exemplos de dados.
+# 
+# - **Subajuste do dados (*underfiting*):** nesse caso, seu modelo ficou muito simples ao ponto de não aprender corretamente os dados:
+#     
+#     - Selecionar um modelo mais poderoso
+#     - *Feature Engineering*
+#     - Reduzir as regularizações
+#     
+
+# %% [markdown]
+# ## Testando com Randim Forest
+
+# %% [markdown]
+# O modelo de **Random Forest** cria de forma aleatória várias árvores de decisão (*decision tree*) e combina o resultado de todas elas para chegar no resultado final.
+# 
+# Vamos analisar se combinar uma base de dados equilibrada com um algoritmo diferente e poderoso de classificação pode melhorar nossos resultados.
+
+# %%
+from sklearn.ensemble import RandomForestClassifier
+
+# %%
+x_train, x_test, y_train, y_test = train_test_split(x_equilibrado, y_equilibrado, test_size = 0.3, random_state=7)
+
+# %%
+# Instancia  modelo Random Forest e define os hiperparâmetros
+rf = RandomForestClassifier(random_state=7)
+
+# %%
+# Treina o modelo com o conjunto de treinamento
+rf.fit(x_train, y_train)
+
+# %%
+# Faz previsões no conjunto de teste
+y_pred_rf = rf.predict(x_test)
+
+# %% [markdown]
+# ## Validando o modelo
+
+# %%
+accuracy_equilibrado_rf = accuracy_score(y_test, y_pred_rf)
+print('Accuracy: ', round(accuracy_equilibrado_rf, 2))
