@@ -27,7 +27,13 @@ dados = pd.read_csv('https://raw.githubusercontent.com/camimq/machine_learning_a
 dados.head()
 
 # %%
+dados.tail()
+
+# %%
 dados.describe()
+
+# %%
+dados.shape
 
 # %%
 dados.groupby('Espécie').describe()
@@ -36,17 +42,28 @@ dados.groupby('Espécie').describe()
 dados.plot.scatter(x='Comprimento do Abdômen', y='Comprimento das Antenas')
 
 # %%
+# Para importar todaas as bibliotecas do sklearn, sem precisar especificar qual, basta usar o comando:
+# from sklearn import *
 from sklearn.model_selection import train_test_split
 
 # %%
-x = dados[['Comprimento do Abdômen', 'Comprimento das Antenas']]
-y = dados['Espécie']
+x = dados[['Comprimento do Abdômen', 'Comprimento das Antenas']] # variáveis características
+y = dados['Espécie'] # variável target
+
+# %%
+x
+
+# %%
+y
 
 # %%
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2, stratify=y, random_state=42)
 
 # %%
 list(y_train).count('Gafanhoto')
+
+# %%
+list(y_train).count('Esperança')
 
 # %%
 print("Total base de treino: ", len(x_train))
@@ -75,5 +92,3 @@ y_predito = modelo_classificador.predict(x_test)
 
 # %%
 accuracy_score(y_true = y_test, y_pred=y_predito)
-
-
